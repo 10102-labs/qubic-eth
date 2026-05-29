@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qubic &middot; The bare metal blockchain</title>
+    <meta name="description" content="10102's thesis on Qubic — the bare metal blockchain. Tickchain, quorum-based consensus, useful proof of work. A hub for newcomers, builders, and watchers.">
+    <link rel="icon" type="image/png" href="img/favicon-dark.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" href="img/favicon-light.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" href="img/favicon-dark.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Qubic &middot; The bare metal blockchain">
+    <meta property="og:description" content="10102's thesis on Qubic. Where computation has a purpose. Bare metal, tickchain, useful proof of work.">
+    <meta property="og:image" content="img/favicon-dark.png">
+    <meta property="og:url" content="https://qubic.eth.limo">
+    <meta name="twitter:card" content="summary">
+
+    <style>
+        :root {
+            --bg-base: #06080f;
+            --bg-box: #0d1320;
+            --bg-box-hover: #131a2a;
+            --cyan: #5BC9F2;
+            --cyan-bright: #8FDDF8;
+            --cyan-dim: rgba(91, 201, 242, 0.55);
+            --green: #7FE0A0;
+            --text: #E8F1F8;
+            --text-dim: rgba(232, 241, 248, 0.78);
+            --text-faint: rgba(232, 241, 248, 0.55);
+            --border-subtle: rgba(91, 201, 242, 0.18);
+            --border-strong: rgba(91, 201, 242, 0.35);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Helvetica Neue', 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text);
+            background-color: var(--bg-base);
+            background-image: radial-gradient(
+                ellipse 110% 90% at center,
+                #0b1424 0%,
+                #08101e 45%,
+                #06080f 100%
+            );
+            min-height: 100vh;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 70px 28px 50px;
+        }
+
+        a { color: var(--cyan); text-decoration: none; transition: color 0.2s ease; }
+        a:hover { color: var(--cyan-bright); }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            text-align: center;
+            padding: 30px 0 60px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            height: 320px;
+            background: radial-gradient(ellipse at center, rgba(91, 201, 242, 0.16) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.42em;
+            color: var(--cyan);
+            margin-bottom: 24px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+            font-weight: 200;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            margin-bottom: 22px;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title strong {
+            font-weight: 500;
+            color: var(--cyan-bright);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            font-weight: 300;
+            color: var(--text-dim);
+            max-width: 640px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-credit {
+            font-size: 0.78rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-credit a {
+            color: var(--text-faint);
+            border-bottom: 1px solid rgba(232, 241, 248, 0.2);
+            padding-bottom: 2px;
+        }
+
+        .hero-credit a:hover { color: var(--text); border-bottom-color: var(--cyan); }
+
+        /* ---------- Box grid ---------- */
+        .boxes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 720px) {
+            .boxes { grid-template-columns: 1fr; }
+        }
+
+        .box {
+            background: var(--bg-box);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 34px 32px;
+            transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+            opacity: 0.6;
+        }
+
+        .box:hover {
+            border-color: var(--border-strong);
+            background: var(--bg-box-hover);
+            transform: translateY(-2px);
+        }
+
+        .box-eyebrow {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.26em;
+            color: var(--cyan);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .box-title {
+            font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: 18px;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+        }
+
+        .box-body {
+            font-size: 1rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 22px;
+        }
+
+        .box-body strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .box-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            font-weight: 500;
+            transition: gap 0.3s ease, color 0.2s ease;
+        }
+
+        .box-link:hover { gap: 14px; color: var(--cyan-bright); }
+
+        /* Aigarth box (mining = AI training) gets a green accent on the eyebrow */
+        .box.aigarth .box-eyebrow { color: var(--green); }
+        .box.aigarth::before { background: linear-gradient(90deg, transparent, rgba(127, 224, 160, 0.55), transparent); }
+        .box.aigarth .box-toggle { color: var(--green); }
+
+        /* ---------- Read-more (native <details>) ---------- */
+        .box-details { margin-bottom: 22px; }
+
+        .box-details > summary {
+            list-style: none;
+            cursor: pointer;
+            outline: none;
+        }
+        .box-details > summary::-webkit-details-marker { display: none; }
+        .box-details > summary::marker { content: ''; }
+
+        /* Visible keyboard focus on the toggle for accessibility */
+        .box-details > summary:focus-visible .box-toggle {
+            outline: 2px solid var(--cyan);
+            outline-offset: 4px;
+            border-radius: 2px;
+        }
+
+        .box-preview {
+            font-size: 1rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-weight: 300;
+            /* Clamp long previews to 4 lines so they don't push the toggle down. */
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .box-details[open] .box-preview {
+            -webkit-line-clamp: unset;
+            line-clamp: unset;
+            overflow: visible;
+            display: block;
+        }
+
+        .box-preview strong { color: var(--text); font-weight: 500; }
+
+        .box-toggle {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .box-details:hover .box-toggle { color: var(--cyan-bright); }
+
+        .box-details[open] .box-toggle::after { content: ' \2191'; }
+        .box-details:not([open]) .box-toggle::after { content: ' \2192'; }
+
+        .box-details[open] .box-toggle .toggle-label::before { content: 'Read less'; }
+        .box-details:not([open]) .box-toggle .toggle-label::before { content: 'Read more'; }
+
+        .box-expanded {
+            margin-top: 16px;
+            font-size: 1rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .box-expanded p { margin-bottom: 14px; }
+        .box-expanded p:last-child { margin-bottom: 0; }
+        .box-expanded strong { color: var(--text); font-weight: 500; }
+        .box-expanded a {
+            color: var(--cyan);
+            border-bottom: 1px solid rgba(91, 201, 242, 0.3);
+        }
+        .box-expanded a:hover { color: var(--cyan-bright); border-bottom-color: var(--cyan); }
+
+        /* ---------- Wide boxes (full-width sections) ---------- */
+        .box-wide {
+            background: var(--bg-box);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 38px 36px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box-wide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+            opacity: 0.6;
+        }
+
+        /* Where-to-start sub-grid */
+        .start-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .start-grid { grid-template-columns: 1fr; gap: 22px; }
+        }
+
+        .start-col h3 {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--cyan);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .start-col ul { list-style: none; }
+
+        .start-col li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .start-col li a {
+            color: var(--text-dim);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .start-col li a:hover {
+            color: var(--cyan-bright);
+            border-bottom-color: var(--cyan-dim);
+        }
+
+        /* 10102 watching box — softer accent */
+        .box-watching {
+            background: linear-gradient(135deg, rgba(91, 201, 242, 0.06) 0%, rgba(13, 19, 32, 1) 60%);
+            border: 1px solid rgba(91, 201, 242, 0.25);
+        }
+
+        .box-watching .box-body { max-width: 720px; }
+
+        /* ---------- Footer ---------- */
+        .footer {
+            text-align: center;
+            padding: 50px 24px 30px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-text {
+            font-size: 0.82rem;
+            color: var(--text-faint);
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-meta {
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            opacity: 0.6;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 50px 20px 40px; }
+            .hero { padding: 20px 0 50px; }
+            .box { padding: 28px 24px; }
+            .box-wide { padding: 30px 26px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-eyebrow">Qubic</div>
+            <h1 class="hero-title">The <strong>bare metal</strong> blockchain.</h1>
+            <p class="hero-subtitle">Where computation has a purpose.</p>
+            <div class="hero-credit">by <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a></div>
+        </section>
+
+        <!-- 4 thesis boxes (2x2) -->
+        <section class="boxes">
+
+            <!-- Box 1: Bare metal -->
+            <div class="box">
+                <div class="box-eyebrow">On the metal</div>
+                <h2 class="box-title">Most L1s run on cloud VMs. Qubic runs on the metal.</h2>
+                <details class="box-details">
+                    <summary>
+                        <p class="box-preview">
+                            Ethereum, Solana, Avalanche &mdash; the major L1s run their validators inside cloud hypervisors. The shared virtualization layer is the security ceiling, the performance tax, and the latency floor.
+                        </p>
+                        <span class="box-toggle"><span class="toggle-label"></span></span>
+                    </summary>
+                    <div class="box-expanded">
+                        <p>
+                            Qubic is the only L1 that demands <strong>bare metal hardware</strong> from its Computors: AMD Epyc class CPUs, 2&thinsp;TB+ of RAM, NVMe storage, AVX2 today, AVX512 by end of 2026. No virtualization. No hypervisor. The consensus runs directly on the silicon.
+                        </p>
+                        <p>
+                            The HPC and AI worlds are rediscovering this &mdash; xAI's Colossus, Tesla's Dojo, Apple's Silicon push. Qubic built its substrate on it from day one.
+                        </p>
+                    </div>
+                </details>
+                <a href="https://github.com/qubic/core" class="box-link" target="_blank" rel="noopener noreferrer">
+                    See the hardware requirements &rarr;
+                </a>
+            </div>
+
+            <!-- Box 2: Tickchain -->
+            <div class="box">
+                <div class="box-eyebrow">Not a blockchain. A tickchain.</div>
+                <h2 class="box-title">Sub-second finality, 451 computors, quorum consensus.</h2>
+                <details class="box-details">
+                    <summary>
+                        <p class="box-preview">
+                            Qubic doesn't produce blocks every twelve seconds. It produces <strong>ticks</strong> &mdash; near-continuous updates agreed by exactly 451 Computors, each holding one equal vote.
+                        </p>
+                        <span class="box-toggle"><span class="toggle-label"></span></span>
+                    </summary>
+                    <div class="box-expanded">
+                        <p>
+                            451+ approvals make a tick valid; the quorum is fixed, the consensus is democratic, the finality is instant.
+                        </p>
+                        <p>
+                            No reorgs. No MEV in the Ethereum sense. No probabilistic settlement. The result is a continuous quorum-driven ledger that behaves more like a high-frequency consensus machine than a traditional block-by-block chain.
+                        </p>
+                    </div>
+                </details>
+                <a href="https://docs.qubic.org/learn/quorum" class="box-link" target="_blank" rel="noopener noreferrer">
+                    See the quorum mechanics &rarr;
+                </a>
+            </div>
+
+            <!-- Box 3: Useful PoW + Aigarth -->
+            <div class="box aigarth">
+                <div class="box-eyebrow">Mining trains AI</div>
+                <h2 class="box-title">Energy doesn't burn. It builds neural networks.</h2>
+                <details class="box-details">
+                    <summary>
+                        <p class="box-preview">
+                            Traditional Proof of Work spends gigawatts solving arbitrary cryptographic puzzles that have no purpose beyond network security. Qubic's <strong>Useful Proof of Work</strong> replaces that with something simple and radical: miners train AI models.
+                        </p>
+                        <span class="box-toggle"><span class="toggle-label"></span></span>
+                    </summary>
+                    <div class="box-expanded">
+                        <p>
+                            <strong>Aigarth</strong> is the system that analyses the artificial neural networks emerging from the mining pool. Computor rankings reset weekly based on AI training performance. Security and intelligence become the same budget.
+                        </p>
+                        <p>
+                            This is the substrate the agentic future needs &mdash; not arbitrary heat, but compute that resolves into useful artifacts.
+                        </p>
+                    </div>
+                </details>
+                <a href="https://docs.qubic.org/learn/upow" class="box-link" target="_blank" rel="noopener noreferrer">
+                    Learn how UPoW works &rarr;
+                </a>
+            </div>
+
+            <!-- Box 4: Lineage -->
+            <div class="box">
+                <div class="box-eyebrow">Lineage</div>
+                <h2 class="box-title">By the architect of NXT and IOTA. The third act.</h2>
+                <details class="box-details">
+                    <summary>
+                        <p class="box-preview">
+                            The first <strong>pure Proof-of-Stake</strong> chain. The first <strong>DAG-based</strong> distributed ledger. Both reshaped what a consensus layer could be. <strong>NXT</strong> launched in 2013 &mdash; the first cryptocurrency to use pure proof-of-stake from genesis, with no preceding proof-of-work phase.
+                        </p>
+                        <span class="box-toggle"><span class="toggle-label"></span></span>
+                    </summary>
+                    <div class="box-expanded">
+                        <p>
+                            <strong>IOTA</strong> followed in 2015, replacing the blockchain itself with a directed acyclic graph (the Tangle) to enable fee-less, scalable machine-to-machine transactions.
+                        </p>
+                        <p>
+                            <strong>Qubic</strong> is the third act from the same hands. Conceived in 2012, ratified through years of public discussion on Bitcointalk, and shipped to mainnet in April 2022 &mdash; tickchain, bare metal substrate, AI as the security budget. The pattern: pick a problem the field hasn't taken seriously, build the architecture the problem actually deserves, ship it before the world is ready.
+                        </p>
+                    </div>
+                </details>
+                <a href="https://bitcointalk.org/index.php?topic=112676.0" class="box-link" target="_blank" rel="noopener noreferrer">
+                    Original 2012 Bitcointalk thread &rarr;
+                </a>
+            </div>
+
+        </section>
+
+        <!-- Where to start -->
+        <section class="box-wide">
+            <div class="box-eyebrow">Where to start</div>
+            <h2 class="box-title">Pick your entry point.</h2>
+            <div class="start-grid">
+
+                <div class="start-col">
+                    <h3>For newcomers</h3>
+                    <ul>
+                        <li><a href="https://qubic.org" target="_blank" rel="noopener noreferrer">qubic.org &rarr; main site</a></li>
+                        <li><a href="https://qubic.org/academy/start" target="_blank" rel="noopener noreferrer">Qubic Academy &rarr; start learning</a></li>
+                        <li><a href="https://docs.qubic.org" target="_blank" rel="noopener noreferrer">Docs &rarr; learn the protocol</a></li>
+                        <li><a href="https://wallet.qubic.org" target="_blank" rel="noopener noreferrer">Wallet &rarr; create one</a></li>
+                    </ul>
+                </div>
+
+                <div class="start-col">
+                    <h3>For builders</h3>
+                    <ul>
+                        <li><a href="https://docs.qubic.org/developers/dev-kit" target="_blank" rel="noopener noreferrer">Dev Kit &rarr; smart contracts</a></li>
+                        <li><a href="https://github.com/qubic" target="_blank" rel="noopener noreferrer">GitHub &rarr; the source</a></li>
+                        <li><a href="https://github.com/qubic/core" target="_blank" rel="noopener noreferrer">Qubic Core &rarr; node software</a></li>
+                        <li><a href="https://qubic.org/ecosystem" target="_blank" rel="noopener noreferrer">Ecosystem &rarr; grants &amp; incubation</a></li>
+                    </ul>
+                </div>
+
+                <div class="start-col">
+                    <h3>For watchers</h3>
+                    <ul>
+                        <li><a href="https://qubic.org/blog-grid" target="_blank" rel="noopener noreferrer">Blog &rarr; official posts</a></li>
+                        <li><a href="https://x.com/_Qubic_" target="_blank" rel="noopener noreferrer">X &rarr; @_Qubic_</a></li>
+                        <li><a href="https://discord.gg/qubic" target="_blank" rel="noopener noreferrer">Discord &rarr; community</a></li>
+                        <li><a href="https://explorer.qubic.org" target="_blank" rel="noopener noreferrer">Explorer &rarr; live network</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 10102 watching -->
+        <section class="box-wide box-watching">
+            <div class="box-eyebrow">10102 is watching</div>
+            <h2 class="box-title">And we may build here ourselves.</h2>
+            <p class="box-body">
+                Qubic is one of the few L1s whose architecture genuinely earns the word <em>different</em>. Bare metal, quorum-driven, AI-fueled consensus &mdash; the pieces line up with where compute is heading, and they line up with the kind of permanent on-chain work we do at <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a>.
+                <br><br>
+                We're watching this space closely. If you're building on Qubic, considering it, or just want to compare notes &mdash; reach out at <a href="mailto:info@10102.io?subject=Qubic">info@10102.io</a>.
+            </p>
+            <a href="https://10102.io/resources/invest/ecosystems/qubic" class="box-link" target="_blank" rel="noopener noreferrer">
+                Read 10102's full Qubic deep dive &rarr;
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-text">
+                Built by <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a> &middot; an independent thesis on Qubic &middot; part of the <a href="https://beyond.eth.limo" target="_blank" rel="noopener noreferrer">beyond.eth</a> collection
+            </div>
+            <div class="footer-meta">qubic.eth &middot; hosted on IPFS &middot; works in any ENS-aware browser</div>
+        </footer>
+
+    </div>
+</body>
+</html>
