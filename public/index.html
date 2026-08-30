@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qubic &middot; The bare metal blockchain</title>
-    <meta name="description" content="10102's thesis on Qubic — the bare metal blockchain. Tickchain, quorum-based consensus, useful proof of work. A hub for newcomers, builders, and watchers.">
+    <meta name="description" content="10102's thesis on Qubic, the bare metal blockchain. Tickchain, quorum-based consensus, useful proof of work. A hub for newcomers, builders, and watchers.">
     <link rel="icon" type="image/png" href="img/favicon-dark.png" media="(prefers-color-scheme: dark)">
     <link rel="icon" type="image/png" href="img/favicon-light.png" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/png" href="img/favicon-dark.png">
@@ -366,7 +366,45 @@
             border-bottom-color: var(--cyan-dim);
         }
 
-        /* 10102 watching box — softer accent */
+        /* Claim box: green accent, promo line + countdown are JS-enhanced */
+        .box-claim {
+            background: linear-gradient(135deg, rgba(127, 224, 160, 0.07) 0%, rgba(13, 19, 32, 1) 60%);
+            border: 1px solid rgba(127, 224, 160, 0.3);
+        }
+        .box-claim::before { background: linear-gradient(90deg, transparent, rgba(127, 224, 160, 0.55), transparent); }
+        .box-claim .box-eyebrow { color: var(--green); }
+        .box-claim .box-body { max-width: 720px; }
+
+        .claim-promo {
+            display: none; /* shown by script only while the launch window is open */
+            margin: -6px 0 22px;
+            font-size: 0.98rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+        .claim-promo strong { color: var(--green); font-weight: 600; }
+        .claim-promo s { color: var(--text-faint); }
+        .claim-countdown {
+            font-variant-numeric: tabular-nums;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .claim-cta {
+            display: inline-block;
+            padding: 13px 26px;
+            border-radius: 12px;
+            background: var(--green);
+            color: #06180f;
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: transform 0.15s ease, opacity 0.2s ease;
+        }
+        .claim-cta:hover { color: #06180f; opacity: 0.9; transform: translateY(-1px); }
+
+        /* 10102 watching box: softer accent */
         .box-watching {
             background: linear-gradient(135deg, rgba(91, 201, 242, 0.06) 0%, rgba(13, 19, 32, 1) 60%);
             border: 1px solid rgba(91, 201, 242, 0.25);
@@ -426,7 +464,7 @@
                 <details class="box-details">
                     <summary>
                         <p class="box-preview">
-                            Ethereum, Solana, Avalanche &mdash; the major L1s run their validators inside cloud hypervisors. The shared virtualization layer is the security ceiling, the performance tax, and the latency floor.
+                            Ethereum, Solana, Avalanche: the major L1s run their validators inside cloud hypervisors. The shared virtualization layer is the security ceiling, the performance tax, and the latency floor.
                         </p>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
@@ -435,7 +473,7 @@
                             Qubic is the only L1 that demands <strong>bare metal hardware</strong> from its Computors: AMD Epyc class CPUs, 2&thinsp;TB+ of RAM, NVMe storage, AVX2 today, AVX512 by end of 2026. No virtualization. No hypervisor. The consensus runs directly on the silicon.
                         </p>
                         <p>
-                            The HPC and AI worlds are rediscovering this &mdash; xAI's Colossus, Tesla's Dojo, Apple's Silicon push. Qubic built its substrate on it from day one.
+                            The HPC and AI worlds are rediscovering this: xAI's Colossus, Tesla's Dojo, Apple's Silicon push. Qubic built its substrate on it from day one.
                         </p>
                     </div>
                 </details>
@@ -451,7 +489,7 @@
                 <details class="box-details">
                     <summary>
                         <p class="box-preview">
-                            Qubic doesn't produce blocks every twelve seconds. It produces <strong>ticks</strong> &mdash; near-continuous updates agreed by exactly 451 Computors, each holding one equal vote.
+                            Qubic doesn't produce blocks every twelve seconds. It produces <strong>ticks</strong>: near-continuous updates agreed by exactly 451 Computors, each holding one equal vote.
                         </p>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
@@ -485,7 +523,7 @@
                             <strong>Aigarth</strong> is the system that analyses the artificial neural networks emerging from the mining pool. Computor rankings reset weekly based on AI training performance. Security and intelligence become the same budget.
                         </p>
                         <p>
-                            This is the substrate the agentic future needs &mdash; not arbitrary heat, but compute that resolves into useful artifacts.
+                            This is the substrate the agentic future needs: not arbitrary heat, but compute that resolves into useful artifacts.
                         </p>
                     </div>
                 </details>
@@ -501,7 +539,7 @@
                 <details class="box-details">
                     <summary>
                         <p class="box-preview">
-                            The first <strong>pure Proof-of-Stake</strong> chain. The first <strong>DAG-based</strong> distributed ledger. Both reshaped what a consensus layer could be. <strong>NXT</strong> launched in 2013 &mdash; the first cryptocurrency to use pure proof-of-stake from genesis, with no preceding proof-of-work phase.
+                            The first <strong>pure Proof-of-Stake</strong> chain. The first <strong>DAG-based</strong> distributed ledger. Both reshaped what a consensus layer could be. <strong>NXT</strong> launched in 2013, the first cryptocurrency to use pure proof-of-stake from genesis, with no preceding proof-of-work phase.
                         </p>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
@@ -510,7 +548,7 @@
                             <strong>IOTA</strong> followed in 2015, replacing the blockchain itself with a directed acyclic graph (the Tangle) to enable fee-less, scalable machine-to-machine transactions.
                         </p>
                         <p>
-                            <strong>Qubic</strong> is the third act from the same hands. Conceived in 2012, ratified through years of public discussion on Bitcointalk, and shipped to mainnet in April 2022 &mdash; tickchain, bare metal substrate, AI as the security budget. The pattern: pick a problem the field hasn't taken seriously, build the architecture the problem actually deserves, ship it before the world is ready.
+                            <strong>Qubic</strong> is the third act from the same hands. Conceived in 2012, ratified through years of public discussion on Bitcointalk, and shipped to mainnet in April 2022: tickchain, bare metal substrate, AI as the security budget. The pattern: pick a problem the field hasn't taken seriously, build the architecture the problem actually deserves, ship it before the world is ready.
                         </p>
                     </div>
                 </details>
@@ -519,6 +557,21 @@
                 </a>
             </div>
 
+        </section>
+
+        <!-- Claim a qubic.eth name -->
+        <section class="box-wide box-claim">
+            <div class="box-eyebrow">Your name onchain</div>
+            <h2 class="box-title">Claim yourname.qubic.eth</h2>
+            <p class="box-body">
+                A permanent name under <strong>qubic.eth</strong>, secured on Ethereum and yours to keep. It resolves everywhere ENS does: wallets, dapps, agents.
+            </p>
+            <p class="claim-promo" id="claim-promo">
+                Launch window: <s>0.1 ETH</s> <strong>0.01 ETH</strong> per name until April 13, 2027 &middot; <span class="claim-countdown" id="claim-countdown"></span>
+            </p>
+            <a href="https://beyond.eth.limo/claim/qubic/" class="claim-cta" target="_blank" rel="noopener noreferrer">
+                Claim your name &rarr;
+            </a>
         </section>
 
         <!-- Where to start -->
@@ -565,9 +618,9 @@
             <div class="box-eyebrow">10102 is watching</div>
             <h2 class="box-title">And we may build here ourselves.</h2>
             <p class="box-body">
-                Qubic is one of the few L1s whose architecture genuinely earns the word <em>different</em>. Bare metal, quorum-driven, AI-fueled consensus &mdash; the pieces line up with where compute is heading, and they line up with the kind of permanent on-chain work we do at <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a>.
+                Qubic is one of the few L1s whose architecture genuinely earns the word <em>different</em>. Bare metal, quorum-driven, AI-fueled consensus: the pieces line up with where compute is heading, and they line up with the kind of permanent on-chain work we do at <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a>.
                 <br><br>
-                We're watching this space closely. If you're building on Qubic, considering it, or just want to compare notes &mdash; reach out at <a href="mailto:info@10102.io?subject=Qubic">info@10102.io</a>.
+                We're watching this space closely. If you're building on Qubic, considering it, or just want to compare notes, reach out at <a href="mailto:info@10102.io?subject=Qubic">info@10102.io</a>.
             </p>
             <a href="https://10102.io/resources/invest/ecosystems/qubic" class="box-link" target="_blank" rel="noopener noreferrer">
                 Read 10102's full Qubic deep dive &rarr;
@@ -583,5 +636,55 @@
         </footer>
 
     </div>
+
+    <script>
+        // Launch-window promo. Shown only while BOTH hold, so IPFS pins of this
+        // page can never advertise a price the chain does not charge:
+        //   1. the window is open (client clock), and
+        //   2. the registrar's live standardPrice for qubic.eth equals 0.01 ETH
+        //      (keyless eth_call; any RPC failure keeps the promo hidden).
+        // Without JS the promo simply stays hidden and the page is evergreen.
+        (function () {
+            var END = Date.parse('2027-04-13T00:00:00Z');
+            var promo = document.getElementById('claim-promo');
+            var count = document.getElementById('claim-countdown');
+            if (!promo || !count || END - Date.now() <= 0) return;
+
+            var RPC = 'https://ethereum-rpc.publicnode.com';
+            var REGISTRAR = '0x16ebaA4A7f29E6c44DC344A4b81d78995C67ecD0';
+            // parents(bytes32) selector + namehash("qubic.eth")
+            var CALLDATA = '0x4bf55e26c7b6705108b5105343de214925517f1ee7927eefefb846537cd794a7ca290899';
+            var PROMO_PRICE_WEI = BigInt('0x2386f26fc10000'); // 0.01 ETH
+
+            function pad(n) { return (n < 10 ? '0' : '') + n; }
+            function tick() {
+                var left = END - Date.now();
+                if (left <= 0) { promo.style.display = 'none'; return; }
+                promo.style.display = 'block';
+                var d = Math.floor(left / 86400000);
+                var h = Math.floor(left % 86400000 / 3600000);
+                var m = Math.floor(left % 3600000 / 60000);
+                var s = Math.floor(left % 60000 / 1000);
+                count.textContent = d + 'd ' + pad(h) + ':' + pad(m) + ':' + pad(s) + ' left';
+                setTimeout(tick, 1000);
+            }
+
+            fetch(RPC, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonrpc: '2.0', id: 1, method: 'eth_call',
+                    params: [{ to: REGISTRAR, data: CALLDATA }, 'latest']
+                })
+            }).then(function (r) { return r.json(); }).then(function (res) {
+                // returns (bool enabled, uint64 ttl, uint256 standardPrice, uint256 memberFreeQuota)
+                var hex = res && res.result;
+                if (!hex || hex.length < 2 + 4 * 64) return;
+                var enabled = BigInt('0x' + hex.slice(2, 66)) === BigInt(1);
+                var price = BigInt('0x' + hex.slice(2 + 2 * 64, 2 + 3 * 64));
+                if (enabled && price === PROMO_PRICE_WEI) tick();
+            }).catch(function () { /* promo stays hidden */ });
+        })();
+    </script>
 </body>
 </html>
