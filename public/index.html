@@ -13,7 +13,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Qubic &middot; The bare metal chain">
     <meta property="og:description" content="10102's thesis on Qubic. Where computation has a purpose. Bare metal, tickchain, useful proof of work.">
-    <meta property="og:image" content="img/favicon-dark.png">
+    <meta property="og:image" content="https://qubic.eth.limo/img/favicon-dark.png">
     <meta property="og:url" content="https://qubic.eth.limo">
     <meta name="twitter:card" content="summary">
 
@@ -446,6 +446,8 @@
 <body>
     <div class="container">
 
+        <main>
+
         <!-- Hero -->
         <section class="hero">
             <div class="hero-eyebrow">Qubic</div>
@@ -463,9 +465,9 @@
                 <h2 class="box-title">Most L1s run on cloud VMs. Qubic runs on the metal.</h2>
                 <details class="box-details">
                     <summary>
-                        <p class="box-preview">
+                        <span class="box-preview">
                             Ethereum, Solana, Avalanche: the major L1s run their validators inside cloud hypervisors. The shared virtualization layer is the security ceiling, the performance tax, and the latency floor.
-                        </p>
+                        </span>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
                     <div class="box-expanded">
@@ -485,12 +487,12 @@
             <!-- Box 2: Tickchain -->
             <div class="box">
                 <div class="box-eyebrow">Not a blockchain. A tickchain.</div>
-                <h2 class="box-title">Sub-second finality, 451 computors, quorum consensus.</h2>
+                <h2 class="box-title">Sub-second finality, 451 of 676 Computors, quorum consensus.</h2>
                 <details class="box-details">
                     <summary>
-                        <p class="box-preview">
+                        <span class="box-preview">
                             Qubic doesn't produce blocks every twelve seconds. It produces <strong>ticks</strong>: near-continuous updates agreed by exactly 451 Computors, each holding one equal vote.
-                        </p>
+                        </span>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
                     <div class="box-expanded">
@@ -513,9 +515,9 @@
                 <h2 class="box-title">Energy doesn't burn. It builds neural networks.</h2>
                 <details class="box-details">
                     <summary>
-                        <p class="box-preview">
+                        <span class="box-preview">
                             Traditional Proof of Work spends gigawatts solving arbitrary cryptographic puzzles that have no purpose beyond network security. Qubic's <strong>Useful Proof of Work</strong> replaces that with something simple and radical: miners train AI models.
-                        </p>
+                        </span>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
                     <div class="box-expanded">
@@ -538,9 +540,9 @@
                 <h2 class="box-title">By the architect of NXT and IOTA. The third act.</h2>
                 <details class="box-details">
                     <summary>
-                        <p class="box-preview">
+                        <span class="box-preview">
                             The first <strong>pure Proof-of-Stake</strong> chain. The first <strong>DAG-based</strong> distributed ledger. Both reshaped what a consensus layer could be. <strong>NXT</strong> launched in 2013, the first cryptocurrency to use pure proof-of-stake from genesis, with no preceding proof-of-work phase.
-                        </p>
+                        </span>
                         <span class="box-toggle"><span class="toggle-label"></span></span>
                     </summary>
                     <div class="box-expanded">
@@ -633,10 +635,15 @@
             </div>
         </section>
 
+        </main>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-text">
                 Built by <a href="https://10102.io" target="_blank" rel="noopener noreferrer">10102</a> &middot; an independent thesis on Qubic &middot; part of the <a href="https://beyond.eth.limo" target="_blank" rel="noopener noreferrer">beyond.eth</a> collection
+            </div>
+            <div class="footer-text">
+                <a href="https://qubic.10102.io/" target="_blank" rel="noopener noreferrer">Apps</a> &middot; <a href="https://qubic.10102.io/weekly/" target="_blank" rel="noopener noreferrer">Weekly Qubic ecosystem audit</a>
             </div>
             <div class="footer-meta">qubic.eth &middot; hosted on IPFS &middot; works in any ENS-aware browser</div>
         </footer>
